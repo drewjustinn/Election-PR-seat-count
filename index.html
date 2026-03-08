@@ -379,9 +379,10 @@
     document.getElementById('tab-manual').classList.toggle('active', mode === 'manual');
   }
 
+  const DEVANAGARI_MAP = {'०':'0','१':'1','२':'2','३':'3','४':'4','५':'5','६':'6','७':'7','८':'8','९':'9'};
+
   function toWesternDigits(str) {
-    // Devanagari digits: ०=0 १=1 २=2 ३=3 ४=4 ५=5 ६=6 ७=7 ८=8 ९=9
-    return str.replace(/[०-९]/g, d => '०१२३४५६७८९'.indexOf(d));
+    return str.replace(/[०-९]/g, d => DEVANAGARI_MAP[d]);
   }
 
   function parsePasteVotes() {
@@ -389,9 +390,9 @@
     return raw.split('\n')
       .map(l => l.trim())
       .filter(l => l.length > 0)
-      .map(l => toWesternDigits(l))   // convert Devanagari → western
-      .map(l => l.replace(/,/g, ''))  // remove commas (1,23,456 → 123456)
-      .map(l => l.replace(/[^\d]/g, '')) // strip any remaining non-digit chars
+      .map(l => toWesternDigits(l))      // convert Devanagari → western digits
+      .map(l => l.replace(/,/g, ''))     // remove commas: १,२३,४५६ → १२३४५६
+      .map(l => l.replace(/[^\d]/g, '')) // strip any leftover non-digit characters
       .map(l => parseInt(l))
       .filter(n => !isNaN(n) && n > 0);
   }
