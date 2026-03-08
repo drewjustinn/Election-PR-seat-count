@@ -4,236 +4,53 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nepal PR Seat Calculator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=DM+Mono:wght@400;500&family=Fraunces:wght@300;600;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:wght@300;600;800&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --crimson:   #c0392b;
-      --deep:      #1a0a08;
-      --paper:     #fdf6ee;
-      --warm:      #f0e6d3;
-      --ink:       #2c1810;
-      --muted:     #8a6a5a;
-      --gold:      #c9852a;
-      --green:     #2d6a4f;
-      --border:    #d4b896;
+      --crimson: #c0392b; --deep: #1a0a08; --paper: #fdf6ee;
+      --warm: #f0e6d3; --ink: #2c1810; --muted: #8a6a5a;
+      --gold: #c9852a; --green: #2d6a4f; --border: #d4b896;
     }
-
-    body {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: 'DM Mono', monospace;
-      min-height: 100vh;
-      padding: 2rem 1rem 4rem;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    .flag-stripe {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 1.2rem;
-    }
+    body { background: var(--paper); color: var(--ink); font-family: 'DM Mono', monospace; min-height: 100vh; padding: 2rem 1rem 4rem; }
+    header { text-align: center; margin-bottom: 3rem; }
+    .flag-stripe { display: flex; justify-content: center; gap: 6px; margin-bottom: 1.2rem; }
     .flag-stripe span { display: block; height: 5px; border-radius: 3px; }
     .flag-stripe .s1 { width: 60px; background: var(--crimson); }
     .flag-stripe .s2 { width: 40px; background: var(--deep); }
     .flag-stripe .s3 { width: 60px; background: var(--crimson); }
-
-    header h1 {
-      font-family: 'Fraunces', serif;
-      font-weight: 800;
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      color: var(--crimson);
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-    }
-    header p {
-      margin-top: 0.5rem;
-      color: var(--muted);
-      font-size: 0.8rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .card {
-      background: #fff;
-      border: 1.5px solid var(--border);
-      border-radius: 4px;
-      padding: 2rem;
-      max-width: 640px;
-      margin: 0 auto 1.5rem;
-      box-shadow: 4px 4px 0 var(--warm);
-    }
-    .card h2 {
-      font-family: 'Fraunces', serif;
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 1.2rem;
-      padding-bottom: 0.6rem;
-      border-bottom: 1px solid var(--border);
-    }
-
+    header h1 { font-family: 'Fraunces', serif; font-weight: 800; font-size: clamp(1.8rem, 5vw, 3rem); color: var(--crimson); letter-spacing: -0.02em; line-height: 1.1; }
+    header p { margin-top: 0.5rem; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .card { background: #fff; border: 1.5px solid var(--border); border-radius: 4px; padding: 2rem; max-width: 640px; margin: 0 auto 1.5rem; box-shadow: 4px 4px 0 var(--warm); }
+    .card h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.2rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--border); }
     .field { margin-bottom: 1.1rem; }
-    label {
-      display: block;
-      font-size: 0.72rem;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.35rem;
-    }
-    input[type="number"], input[type="text"], textarea {
-      width: 100%;
-      padding: 0.65rem 0.85rem;
-      border: 1.5px solid var(--border);
-      border-radius: 3px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.95rem;
-      color: var(--ink);
-      background: var(--paper);
-      outline: none;
-      transition: border-color 0.15s;
-    }
+    label { display: block; font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+    input[type="text"], textarea { width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid var(--border); border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 0.95rem; color: var(--ink); background: var(--paper); outline: none; transition: border-color 0.15s; }
     textarea { resize: vertical; min-height: 140px; line-height: 1.7; }
-    input:focus, textarea:focus { border-color: var(--crimson); }
-
-    .threshold-banner {
-      display: none;
-      background: var(--deep);
-      color: #fff;
-      border-radius: 3px;
-      padding: 0.9rem 1.1rem;
-      margin: 1rem 0 0;
-      font-size: 0.85rem;
-      line-height: 1.6;
-    }
+    input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--crimson); }
+    select { width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid var(--border); border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 0.95rem; color: var(--ink); background: var(--paper); outline: none; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238a6a5a' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.85rem center; }
+    .threshold-banner { display: none; background: var(--deep); color: #fff; border-radius: 3px; padding: 0.9rem 1.1rem; margin: 1rem 0 0; font-size: 0.85rem; line-height: 1.6; }
     .threshold-banner strong { color: var(--gold); font-size: 1.1rem; }
     .threshold-banner.show { display: block; }
 
-    /* paste mode toggle */
-    .mode-tabs {
-      display: flex;
-      gap: 0;
-      margin-bottom: 1rem;
-      border: 1.5px solid var(--border);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    .mode-tab {
-      flex: 1;
-      padding: 0.55rem 0.5rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      background: var(--paper);
-      color: var(--muted);
-      border: none;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-    }
-    .mode-tab.active {
-      background: var(--deep);
-      color: var(--gold);
-    }
-
-    /* paste preview chips */
-    .parsed-preview {
-      display: none;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.75rem;
-    }
-    .parsed-preview.show { display: flex; }
-    .chip {
-      background: var(--warm);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 0.2rem 0.65rem;
-      font-size: 0.75rem;
-      color: var(--ink);
-    }
-    .chip.qualify { border-color: var(--green); color: var(--green); background: #eaf4ee; }
-    .chip.disqualify { border-color: #aaa; color: #aaa; text-decoration: line-through; }
-
-    .party-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      margin-bottom: 0.9rem;
-      padding: 0.9rem;
-      border: 1px dashed var(--border);
-      border-radius: 3px;
-      background: var(--paper);
-      animation: fadeIn 0.2s ease;
-    }
-    .party-row .party-label {
-      grid-column: 1 / -1;
-      font-size: 0.7rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
+    .parsed-preview { display: none; margin-top: 0.75rem; }
+    .parsed-preview.show { display: block; }
+    .party-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.9rem; padding: 0.9rem; border: 1px dashed var(--border); border-radius: 3px; background: var(--paper); animation: fadeIn 0.2s ease; }
+    .party-row .party-label { grid-column: 1 / -1; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
     @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:none; } }
-
-    .btn {
-      display: inline-block;
-      padding: 0.7rem 1.6rem;
-      border: none;
-      border-radius: 3px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      cursor: pointer;
-      letter-spacing: 0.05em;
-      transition: transform 0.1s, box-shadow 0.1s;
-    }
+    .btn { display: inline-block; padding: 0.7rem 1.6rem; border: none; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 0.85rem; cursor: pointer; letter-spacing: 0.05em; transition: transform 0.1s, box-shadow 0.1s; }
     .btn:active { transform: translateY(2px); box-shadow: none !important; }
     .btn-primary { background: var(--crimson); color: #fff; box-shadow: 3px 3px 0 #8b1a12; }
     .btn-primary:hover { box-shadow: 4px 4px 0 #8b1a12; }
     .btn-secondary { background: var(--deep); color: #fff; box-shadow: 3px 3px 0 #000; }
     .btn-reset { background: transparent; color: var(--muted); border: 1px solid var(--border); }
     .btn-row { margin-top: 1.2rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
-
-    .hint {
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin-top: 0.4rem;
-    }
-
+    .hint { font-size: 0.72rem; color: var(--muted); margin-top: 0.4rem; }
     #results { display: none; }
     #results.show { display: block; }
-
-    .results-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .results-header h2 {
-      font-family: 'Fraunces', serif;
-      font-weight: 800;
-      font-size: 1.3rem;
-      color: var(--ink);
-      border: none; padding: 0; margin: 0;
-    }
-    .pill {
-      font-size: 0.72rem;
-      padding: 0.25rem 0.7rem;
-      border-radius: 20px;
-      background: var(--warm);
-      color: var(--muted);
-      border: 1px solid var(--border);
-    }
-
+    .results-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+    .results-header h2 { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.3rem; color: var(--ink); border: none; padding: 0; margin: 0; }
+    .pill { font-size: 0.72rem; padding: 0.25rem 0.7rem; border-radius: 20px; background: var(--warm); color: var(--muted); border: 1px solid var(--border); }
     table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
     thead tr { background: var(--deep); color: var(--gold); text-transform: uppercase; letter-spacing: 0.07em; font-size: 0.68rem; }
     th, td { padding: 0.65rem 0.75rem; text-align: right; }
@@ -242,27 +59,10 @@
     tbody tr:hover { background: var(--warm); }
     .seats-cell { font-weight: 500; color: var(--crimson); font-size: 1rem; }
     tfoot tr { background: var(--warm); font-weight: 500; border-top: 2px solid var(--border); }
-
-    .rounding-note {
-      margin-top: 0.9rem;
-      font-size: 0.75rem;
-      color: var(--muted);
-      padding: 0.7rem 0.9rem;
-      border-left: 3px solid var(--gold);
-      background: var(--warm);
-      border-radius: 0 3px 3px 0;
-    }
-
+    .rounding-note { margin-top: 0.9rem; font-size: 0.75rem; color: var(--muted); padding: 0.7rem 0.9rem; border-left: 3px solid var(--gold); background: var(--warm); border-radius: 0 3px 3px 0; }
     .error { color: var(--crimson); font-size: 0.78rem; margin-top: 0.4rem; display: none; }
     .error.show { display: block; }
-
-    footer {
-      text-align: center;
-      margin-top: 3rem;
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
+    footer { text-align: center; margin-top: 3rem; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.05em; }
   </style>
 </head>
 <body>
@@ -272,72 +72,55 @@
     <span class="s1"></span><span class="s2"></span><span class="s3"></span>
   </div>
   <h1>Nepal PR Seat Calculator</h1>
-  <p>Federal House of Representatives &nbsp;·&nbsp; 110 Proportional Seats</p>
+  <p>Federal House of Representatives &nbsp;&middot;&nbsp; 110 Proportional Seats</p>
 </header>
 
-<!-- Step 1 -->
 <div class="card">
-  <h2>Step 1 — Total PR Votes</h2>
+  <h2>Step 1 &mdash; Total PR Votes</h2>
   <div class="field">
     <label>Total valid PR votes (all parties combined)</label>
-    <input type="number" id="total-votes" placeholder="e.g. 12000000" min="1"/>
+    <input type="text" id="total-votes" placeholder="e.g. 1,20,00,000 or १२०००००" oninput="cleanNumberInput(this)"/>
     <div class="error" id="err-total">Please enter a valid total greater than 0.</div>
   </div>
   <div class="btn-row">
-    <button class="btn btn-primary" onclick="computeThreshold()">Calculate Threshold →</button>
+    <button class="btn btn-primary" onclick="computeThreshold()">Calculate Threshold &rarr;</button>
   </div>
   <div class="threshold-banner" id="threshold-banner"></div>
 
-  <!-- Step 2 -->
   <div id="step2-wrap" style="display:none; margin-top:1.8rem;">
-    <h2 style="font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--border);">Step 2 — Qualifying Party Votes</h2>
-
-    <div class="mode-tabs">
-      <button class="mode-tab active" id="tab-paste" onclick="switchMode('paste')">📋 Paste votes</button>
-      <button class="mode-tab" id="tab-manual" onclick="switchMode('manual')">✏️ Enter manually</button>
+    <h2 style="font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--border);">Step 2 &mdash; Qualifying Parties</h2>
+    <div class="field">
+      <label>How many parties crossed the threshold?</label>
+      <select id="num-parties" onchange="buildPartyInputs()">
+        <option value="5" selected>5 (default)</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+      </select>
     </div>
-
-    <!-- PASTE MODE -->
-    <div id="mode-paste">
-      <div class="field">
-        <label>Paste votes of qualifying parties — one number per line</label>
-        <textarea id="paste-votes" placeholder="2400000&#10;1850000&#10;1200000&#10;980000&#10;..." oninput="previewPaste()"></textarea>
-        <p class="hint">Copy a column from Excel or any list — just the vote numbers, one per line.</p>
-      </div>
-      <div class="parsed-preview" id="paste-preview"></div>
-      <div class="error" id="err-paste">Could not parse votes. Make sure each line has one number.</div>
-      <div class="btn-row">
-        <button class="btn btn-secondary" onclick="buildFromPaste()">Add Party Names →</button>
-      </div>
-    </div>
-
-    <!-- MANUAL MODE -->
-    <div id="mode-manual" style="display:none;">
-      <div class="field">
-        <label>How many parties crossed the threshold?</label>
-        <input type="number" id="num-parties" placeholder="e.g. 6" min="1" max="57"/>
-        <div class="error" id="err-num">Please enter a number between 1 and 57.</div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-secondary" onclick="buildManual()">Enter Party Data →</button>
-      </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="buildPartyInputs()">Enter Party Data &rarr;</button>
     </div>
   </div>
 </div>
 
-<!-- Step 3 -->
 <div class="card" id="step3-card" style="display:none;">
-  <h2>Step 3 — Party Names</h2>
-  <p class="hint" style="margin-bottom:1rem;">Votes are pre-filled. Just add the party names.</p>
+  <h2>Step 3 &mdash; Party Names &amp; Votes</h2>
   <div id="party-inputs"></div>
   <div class="error" id="err-parties">Please fill in all party names and votes.</div>
   <div class="btn-row">
-    <button class="btn btn-primary" onclick="calculate()">Calculate PR Seats →</button>
+    <button class="btn btn-primary" onclick="calculate()">Calculate PR Seats &rarr;</button>
     <button class="btn btn-reset" onclick="resetAll()">Start Over</button>
   </div>
 </div>
 
-<!-- Results -->
 <div class="card" id="results">
   <div class="results-header">
     <h2>PR Seat Allocation</h2>
@@ -350,157 +133,227 @@
 </div>
 
 <footer>
-  Nepal Election Commission &nbsp;·&nbsp; 3% threshold applies &nbsp;·&nbsp; Rounding may vary by ±1 seat
+  Nepal Election Commission &nbsp;&middot;&nbsp; 3% threshold applies &nbsp;&middot;&nbsp; Rounding may vary by &plusmn;1 seat
 </footer>
 
 <script>
-  let thresholdVotes = 0;
-  let currentMode = 'paste';
+  var thresholdVotes = 0;
 
-  function computeThreshold() {
-    const val = parseInt(document.getElementById('total-votes').value);
-    const err = document.getElementById('err-total');
-    if (!val || val <= 0) { err.classList.add('show'); return; }
-    err.classList.remove('show');
-    thresholdVotes = val * 0.03;
-    const banner = document.getElementById('threshold-banner');
-    banner.innerHTML = `3% threshold = <strong>${Math.ceil(thresholdVotes).toLocaleString()} votes</strong><br>
-      <span style="font-size:0.78rem;color:#ccc;">Parties below this number are disqualified — do not include them.</span>`;
-    banner.classList.add('show');
-    document.getElementById('step2-wrap').style.display = 'block';
-    document.getElementById('step2-wrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-
-  function switchMode(mode) {
-    currentMode = mode;
-    document.getElementById('mode-paste').style.display  = mode === 'paste'  ? 'block' : 'none';
-    document.getElementById('mode-manual').style.display = mode === 'manual' ? 'block' : 'none';
-    document.getElementById('tab-paste').classList.toggle('active',  mode === 'paste');
-    document.getElementById('tab-manual').classList.toggle('active', mode === 'manual');
-  }
-
-  const DEVANAGARI_MAP = {'०':'0','१':'1','२':'2','३':'3','४':'4','५':'5','६':'6','७':'7','८':'8','९':'9'};
+  var DEVANAGARI_MAP = {
+    '\u0966':'0','\u0967':'1','\u0968':'2','\u0969':'3','\u096A':'4',
+    '\u096B':'5','\u096C':'6','\u096D':'7','\u096E':'8','\u096F':'9'
+  };
 
   function toWesternDigits(str) {
-    return str.replace(/[०-९]/g, d => DEVANAGARI_MAP[d]);
+    return str.replace(/[\u0966-\u096F]/g, function(d) { return DEVANAGARI_MAP[d]; });
+  }
+
+  function cleanValue(val) {
+    return toWesternDigits(val).replace(/,/g, '').replace(/[^\d]/g, '');
+  }
+
+  // Cleans a single input field in place
+  function cleanNumberInput(el) {
+    var pos = el.selectionStart;
+    var cleaned = cleanValue(el.value);
+    if (cleaned !== el.value) {
+      el.value = cleaned;
+      try { el.selectionStart = el.selectionEnd = pos; } catch(e) {}
+    }
+  }
+
+  // Cleans the textarea line by line and updates preview
+  function updatePreviewFromTextarea() {
+    var el = document.getElementById('paste-votes');
+    var lines = el.value.split('\n').map(function(l) {
+      return cleanValue(l.trim());
+    }).filter(function(l) { return l.length > 0; });
+    updatePreview(lines);
+  }
+
+  function cleanTextareaAndPreview() {
+    var el = document.getElementById('paste-votes');
+    var lines = el.value.split('\n');
+    var cleaned = lines.map(function(l) { return cleanValue(l.trim()); });
+    var joined = cleaned.join('\n');
+    if (joined !== el.value) {
+      el.value = joined;
+    }
+    updatePreview(cleaned);
+  }
+
+  function updatePreview(lines) {
+    var preview = document.getElementById('paste-preview');
+    var nonEmpty = lines.filter(function(l) { return l.length > 0; });
+    if (!nonEmpty.length) {
+      preview.classList.remove('show');
+      preview.innerHTML = '';
+      return;
+    }
+
+    var okCount = 0;
+    var rows = '';
+    nonEmpty.forEach(function(line, i) {
+      var parsed = parseInt(line);
+      var ok = !isNaN(parsed) && parsed > 0;
+      if (ok) okCount++;
+      rows += '<tr style="background:' + (ok ? '#f5fff8' : '#fff5f5') + '">'
+        + '<td style="color:#8a6a5a;padding:0.35rem 0.6rem;">' + (i + 1) + '</td>'
+        + '<td style="padding:0.35rem 0.6rem;font-family:DM Mono,monospace;">' + line + '</td>'
+        + '<td style="padding:0.35rem 0.6rem;color:' + (ok ? '#2d6a4f' : '#c0392b') + ';font-weight:500;">'
+        + (ok ? parsed.toLocaleString() : 'could not parse') + '</td>'
+        + '<td style="padding:0.35rem 0.6rem;text-align:center;">' + (ok ? '&#10003;' : '&#10007;') + '</td>'
+        + '</tr>';
+    });
+
+    preview.classList.add('show');
+    preview.innerHTML = '<div style="font-size:0.75rem;color:#8a6a5a;margin-bottom:0.5rem;">'
+      + okCount + ' of ' + nonEmpty.length + ' lines recognised successfully</div>'
+      + '<table style="width:100%;border-collapse:collapse;font-size:0.8rem;">'
+      + '<thead><tr style="background:#f0e6d3;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:#8a6a5a;">'
+      + '<th style="padding:0.35rem 0.6rem;text-align:left;">#</th>'
+      + '<th style="padding:0.35rem 0.6rem;text-align:left;">Value in box</th>'
+      + '<th style="padding:0.35rem 0.6rem;text-align:left;">Parsed as</th>'
+      + '<th style="padding:0.35rem 0.6rem;text-align:center;">OK?</th>'
+      + '</tr></thead><tbody>' + rows + '</tbody></table>';
   }
 
   function parsePasteVotes() {
-    const raw = document.getElementById('paste-votes').value;
-    return raw.split('\n')
-      .map(l => l.trim())
-      .filter(l => l.length > 0)
-      .map(l => toWesternDigits(l))      // convert Devanagari → western digits
-      .map(l => l.replace(/,/g, ''))     // remove commas: १,२३,४५६ → १२३४५६
-      .map(l => l.replace(/[^\d]/g, '')) // strip any leftover non-digit characters
-      .map(l => parseInt(l))
-      .filter(n => !isNaN(n) && n > 0);
-  }
-
-  function previewPaste() {
-    const votes = parsePasteVotes();
-    const preview = document.getElementById('paste-preview');
-    if (!votes.length) { preview.classList.remove('show'); return; }
-    preview.classList.add('show');
-    preview.innerHTML = votes.map(v =>
-      `<span class="chip qualify">${v.toLocaleString()}</span>`
-    ).join('');
-  }
-
-  function buildFromPaste() {
-    const votes = parsePasteVotes();
-    const err = document.getElementById('err-paste');
-    if (!votes.length) { err.classList.add('show'); return; }
-    err.classList.remove('show');
-    buildPartyRows(votes);
-  }
-
-  function buildManual() {
-    const n = parseInt(document.getElementById('num-parties').value);
-    const err = document.getElementById('err-num');
-    if (!n || n < 1 || n > 57) { err.classList.add('show'); return; }
-    err.classList.remove('show');
-    const emptyVotes = Array(n).fill(null);
-    buildPartyRows(emptyVotes, true);
-  }
-
-  function buildPartyRows(votes, manualVotes = false) {
-    const container = document.getElementById('party-inputs');
-    container.innerHTML = '';
-    votes.forEach((v, i) => {
-      container.innerHTML += `
-        <div class="party-row">
-          <span class="party-label">Party ${i + 1}</span>
-          <div class="field" style="margin:0;">
-            <label>Party name</label>
-            <input type="text" id="pname-${i}" placeholder="e.g. Rastriya Swatantra Party (RSP)"/>
-          </div>
-          <div class="field" style="margin:0;">
-            <label>PR votes</label>
-            <input type="number" id="pvotes-${i}" value="${v !== null ? v : ''}" placeholder="votes"/>
-          </div>
-        </div>`;
+    var raw = document.getElementById('paste-votes').value;
+    var result = [];
+    raw.split('\n').forEach(function(l) {
+      var n = parseInt(l.trim());
+      if (!isNaN(n) && n > 0) result.push(n);
     });
+    return result;
+  }
+
+  function computeThreshold() {
+    var val = parseInt(document.getElementById('total-votes').value);
+    var err = document.getElementById('err-total');
+    if (!val || val <= 0) { err.classList.add('show'); return; }
+    err.classList.remove('show');
+    thresholdVotes = val * 0.03;
+    var banner = document.getElementById('threshold-banner');
+    banner.innerHTML = '3% threshold = <strong>' + Math.ceil(thresholdVotes).toLocaleString() + ' votes</strong><br>'
+      + '<span style="font-size:0.78rem;color:#ccc;">Parties below this number are disqualified &mdash; do not include them.</span>';
+    banner.classList.add('show');
+    document.getElementById('step2-wrap').style.display = 'block';
+    document.getElementById('step2-wrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    buildPartyInputs();
+  }
+
+
+
+  var DEFAULT_PARTIES = [
+    'Rastriya Swatantra Party (RSP)',
+    'Nepali Congress',
+    'Nepal Communist Party (NCP-UML)',
+    'Nepal Communist Party (Maobadi)',
+    'Rastriya Prajatantra Party (RPP)'
+  ];
+
+  function buildPartyInputs() {
+    var n = parseInt(document.getElementById('num-parties').value);
+    var names = [];
+    for (var i = 0; i < n; i++) {
+      names.push(i < DEFAULT_PARTIES.length ? DEFAULT_PARTIES[i] : '');
+    }
+    buildPartyRows(names);
+  }
+
+
+
+  function buildPartyRows(names) {
+    var container = document.getElementById('party-inputs');
+    container.innerHTML = '';
+    for (var i = 0; i < names.length; i++) {
+      var name = names[i] || '';
+      var row = document.createElement('div');
+      row.className = 'party-row';
+      row.innerHTML = '<span class="party-label">Party ' + (i + 1) + '</span>'
+        + '<div class="field" style="margin:0;">'
+        + '<label>Party name</label>'
+        + '<input type="text" id="pname-' + i + '" value="' + name + '" placeholder="Enter party name"/>'
+        + '</div>'
+        + '<div class="field" style="margin:0;">'
+        + '<label>PR votes</label>'
+        + '<input type="text" id="pvotes-' + i + '" value="" placeholder="e.g. 12,00,000" oninput="cleanNumberInput(this)"/>'
+        + '</div>';
+      container.appendChild(row);
+    }
     document.getElementById('step3-card').style.display = 'block';
     document.getElementById('step3-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function calculate() {
-    const container = document.getElementById('party-inputs');
-    const rows = container.querySelectorAll('.party-row');
-    const errP = document.getElementById('err-parties');
-    const totalVotes = parseInt(document.getElementById('total-votes').value);
+    var container = document.getElementById('party-inputs');
+    var rows = container.querySelectorAll('.party-row');
+    var errP = document.getElementById('err-parties');
+    var totalVotes = parseInt(document.getElementById('total-votes').value);
+    var parties = [];
+    var valid = true;
 
-    let parties = [];
-    let valid = true;
-    rows.forEach((_, i) => {
-      const name  = document.getElementById(`pname-${i}`).value.trim();
-      const votes = parseInt(document.getElementById(`pvotes-${i}`).value);
-      if (!name || !votes || votes <= 0) { valid = false; }
-      else parties.push({ name, votes });
-    });
+    for (var i = 0; i < rows.length; i++) {
+      var name  = document.getElementById('pname-' + i).value.trim();
+      var votes = parseInt(document.getElementById('pvotes-' + i).value);
+      if (!name || !votes || votes <= 0) { valid = false; break; }
+      parties.push({ name: name, votes: votes });
+    }
 
     if (!valid || !parties.length) { errP.classList.add('show'); return; }
     errP.classList.remove('show');
 
-    const pool = parties.reduce((s, p) => s + p.votes, 0);
-    parties = parties.map(p => ({
-      ...p,
-      voteShare: (p.votes / totalVotes * 100).toFixed(1),
-      prRaw:     (p.votes / pool * 110),
-      prSeats:   Math.round(p.votes / pool * 110),
-    })).sort((a, b) => b.prSeats - a.prSeats);
+    var pool = 0;
+    parties.forEach(function(p) { pool += p.votes; });
 
-    const totalSeats = parties.reduce((s, p) => s + p.prSeats, 0);
+    parties = parties.map(function(p) {
+      var prRaw   = p.votes / pool * 110;
+      var prSeats = Math.round(prRaw);
+      return {
+        name:      p.name,
+        votes:     p.votes,
+        voteShare: (p.votes / totalVotes * 100).toFixed(1),
+        prRaw:     prRaw,
+        prSeats:   prSeats
+      };
+    });
+    parties.sort(function(a, b) { return b.prSeats - a.prSeats; });
 
-    const rows2 = parties.map(p => `
-      <tr>
-        <td>${p.name}</td>
-        <td>${p.votes.toLocaleString()}</td>
-        <td>${p.voteShare}%</td>
-        <td>${p.prRaw.toFixed(2)}</td>
-        <td class="seats-cell">${p.prSeats}</td>
-      </tr>`).join('');
+    var totalSeats = 0;
+    parties.forEach(function(p) { totalSeats += p.prSeats; });
 
-    const note = totalSeats !== 110
-      ? `<div class="rounding-note">Total allocated: <strong>${totalSeats}</strong> / 110. Difference of ${Math.abs(110 - totalSeats)} seat(s) due to rounding — Election Commission makes final adjustments.</div>`
+    var tableRows = '';
+    parties.forEach(function(p) {
+      tableRows += '<tr>'
+        + '<td>' + p.name + '</td>'
+        + '<td>' + p.votes.toLocaleString() + '</td>'
+        + '<td>' + p.voteShare + '%</td>'
+        + '<td>' + p.prRaw.toFixed(2) + '</td>'
+        + '<td class="seats-cell">' + p.prSeats + '</td>'
+        + '</tr>';
+    });
+
+    var note = totalSeats !== 110
+      ? '<div class="rounding-note">Total allocated: <strong>' + totalSeats + '</strong> / 110. '
+        + 'Difference of ' + Math.abs(110 - totalSeats) + ' seat(s) due to rounding &mdash; '
+        + 'Election Commission makes final adjustments.</div>'
       : '';
 
-    document.getElementById('results-table').innerHTML = `
-      <table>
-        <thead><tr><th>Party</th><th>PR Votes</th><th>Vote %</th><th>Entitlement</th><th>PR Seats</th></tr></thead>
-        <tbody>${rows2}</tbody>
-        <tfoot><tr><td>TOTAL</td><td>${pool.toLocaleString()}</td><td>—</td><td>110.00</td><td class="seats-cell">${totalSeats}</td></tr></tfoot>
-      </table>${note}`;
+    document.getElementById('results-table').innerHTML =
+      '<table>'
+      + '<thead><tr><th>Party</th><th>PR Votes</th><th>Vote %</th><th>Entitlement</th><th>PR Seats</th></tr></thead>'
+      + '<tbody>' + tableRows + '</tbody>'
+      + '<tfoot><tr><td>TOTAL</td><td>' + pool.toLocaleString() + '</td><td>&mdash;</td><td>110.00</td><td class="seats-cell">' + totalSeats + '</td></tr></tfoot>'
+      + '</table>' + note;
 
-    const resultsEl = document.getElementById('results');
+    var resultsEl = document.getElementById('results');
     resultsEl.classList.add('show');
     resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function resetAll() {
     document.getElementById('total-votes').value = '';
-    document.getElementById('paste-votes').value = '';
     document.getElementById('num-parties').value = '';
     document.getElementById('threshold-banner').classList.remove('show');
     document.getElementById('step2-wrap').style.display = 'none';
@@ -509,13 +362,14 @@
     document.getElementById('results').classList.remove('show');
     document.getElementById('results-table').innerHTML = '';
     document.getElementById('paste-preview').classList.remove('show');
-    switchMode('paste');
+    document.getElementById('paste-preview').innerHTML = '';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key !== 'Enter') return;
-    if (document.activeElement?.id === 'total-votes') computeThreshold();
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'total-votes') {
+      computeThreshold();
+    }
   });
 </script>
 </body>
